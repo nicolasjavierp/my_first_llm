@@ -16,16 +16,18 @@ You are a Python code translator. Convert the following Python 2.7 code to valid
 2. Change print statements to print functions.
 3. Maintain the original logic and structure of the code.
 4. Ensure proper indentation and style according to PEP 8.
-5. Use f-strings for string formatting instead of the `format` method.
-6. Replace any deprecated libraries or functions with their modern equivalents.
-7. Handle exceptions using the `as` keyword.
-8. Use list comprehensions or generator expressions or dictionary comprehentions instead of manual loops where applicable.
-9. Do not include any additional comments, headers, or footers in your output.
-
-
+5. Replace any deprecated libraries or functions with their modern equivalents.
+6. Handle exceptions using the `as` keyword.
+7. Use list comprehensions or generator expressions or dictionary comprehensions instead of manual loops where applicable.
+8. Do not include any additional comments, headers, or footers in your output.
 Original Python 2.7 code:
 {code}
 """)
+
+def count_tokens(code):
+    """Estimate the number of tokens in the code."""
+    # Use a simple approximation: each word and punctuation mark is treated as a token
+    return len(code.split())
 
 def chunk_code(code, max_tokens=512):
     """Split the code into chunks that do not exceed the max_tokens limit."""
@@ -33,9 +35,9 @@ def chunk_code(code, max_tokens=512):
     chunks = []
     current_chunk = []
 
-    for token in tokens:
-        current_chunk.append(token)
-        if sum(len(line.split()) for line in current_chunk) > max_tokens:
+    for line in tokens:
+        current_chunk.append(line)
+        if count_tokens('\n'.join(current_chunk)) > max_tokens:
             chunks.append('\n'.join(current_chunk[:-1]))  # Add previous chunk
             current_chunk = [current_chunk[-1]]  # Start new chunk with last line
 
@@ -52,13 +54,23 @@ def convert_file(file_path):
     with open(file_path, 'r') as file:
         python2_code = file.read()
     
+    # Chunk the Python 2 code
+    code_chunks = chunk_code(python2_code)
+
     # Convert the Python 2 code to Python 3
-    python3_code = sequence.invoke({"code": python2_code})
+    python3_code_parts = []
+    for chunk in code_chunks:
+        python3_code = sequence.invoke({"code": chunk})
+        python3_code_parts.append(python3_code.strip())  # Strip any extra whitespace
     
+    # Combine the converted code parts
+    breakpoint()
+    python3_code_combined = "\n".join(python3_code_parts)
+
     # Write the converted code to a new Python 3 file
     new_file_path = file_path.replace('.py', '_converted.py')
     with open(new_file_path, 'w') as new_file:
-        new_file.write(python3_code.strip())  # Strip any extra whitespace
+        new_file.write(python3_code_combined)
     
     print(f"Converted {file_path} to {new_file_path}")
 
