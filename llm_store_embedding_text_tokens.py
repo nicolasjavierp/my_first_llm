@@ -36,7 +36,8 @@ for doc in document_data:
     sentences = sent_tokenize(doc.page_content)
     all_sentences.extend(sentences)
 
-docs = [Document(page_content=sentence) for sentence in all_sentences]
+parent_document_id = "yoda_force"
+docs = [Document(page_content=sentence, metadata={"parent_document_id": parent_document_id}) for sentence in all_sentences]
 logging.info(f"Split into {len(docs)} sentences.")
 
 # Embedding --> Embed Chunks --> Vectors --> Vector Chunks --> Save to Chroma
@@ -55,7 +56,7 @@ retriever = vector_store.as_retriever()
 #6_ Query the Chroma and get similarites
 query = "What makes Yoda the greatest Jedi?"
 #similar_docs = vector_store.similarity_search(query)
-similar_docs = retriever.get_relevant_documents(query)
+similar_docs = retriever.invoke(query)
 print(similar_docs[0].page_content)
 
 #7_ Load New Big Documnet
@@ -67,11 +68,12 @@ for doc in document_data:
     sentences = sent_tokenize(doc.page_content)
     all_sentences.extend(sentences)
 
-docs = [Document(page_content=sentence) for sentence in all_sentences]
+new_parent_document_id = "yoda_fencing"
+docs = [Document(page_content=sentence, metadata={"parent_document_id": new_parent_document_id}) for sentence in all_sentences]
 logging.info(f"Split into {len(docs)} sentences.")
 vector_store.add_documents(documents=docs, ids=[str(i) for i in range(previous_len+1,len(docs)+previous_len+1)])
 
 #6_ Query the Chroma and get similarites
 query = "What style of lightsaber combat does Yoda use?"
-similar_docs = vector_store.similarity_search(query)
+similar_docs = retriever.invoke(query)
 print(similar_docs[0].page_content)
