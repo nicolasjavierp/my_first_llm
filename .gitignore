@@ -164,3 +164,4 @@ cython_debug/
 *.idml
 *.pdf
 yoda_db/
+*.bin
