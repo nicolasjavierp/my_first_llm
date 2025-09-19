@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8055:8055"
+
+  # mcp-client:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   command: python client.py
+  #   depends_on:
+  #     - mcp-server
