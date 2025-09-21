@@ -1,4 +1,4 @@
-# MCP (Model Control Protocol) Directory
+# MCP (Model Control Protocol)
 
 Core infrastructure for LLM tool integration and orchestration:
 
@@ -21,10 +21,4 @@ Core infrastructure for LLM tool integration and orchestration:
 - Python-dotenv
 
 ## Usage
-```python
-from MCP.client import MCPSSEClient
 
-async def main():
-    client = MCPSSEClient()
-    await client.connect_to_server()
-    response = await client.process_query("Your query here")
