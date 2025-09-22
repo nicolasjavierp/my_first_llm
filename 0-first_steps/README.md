@@ -1,23 +1,32 @@
-# Source Directory
+# LLM Starter Kit - Core Implementation
 
-Core LLM implementation scripts:
+## Overview
+This module contains foundational LLM integration patterns demonstrated through three key implementations:
 
-## first_csv_pdf_llama.py
-- **Purpose**: Multi-format data loading and processing
-- **Functionality**:
-  - CSV/HTML/PDF document loading
-  - Integration with Llama-2 7B model
-  - LangChain data pipeline setup
-- **Key Dependencies**:
-  - LangChain (CSVLoader, BSHTMLLoader, PyPDFLoader)
-  - CTransformers
+1. **Data Pipeline (`first_csv_html_pdf_llama.py`)**
+   - Read content between CSV/HTML/PDF formats
+   - Integrated LLM data interpretation
+   - Batch processing capabilities
 
-- **Usage**:
+2. **Core LLM Interactions (`first_llm_llama.py`)**
+   - Chat completion patterns
+   - Streaming responses
+   - Model configuration management
+
+3. **LangChain Integration (`ollama_langchain.py`)**
+   - Ollama local model integration
+   - Chain construction examples
+   - Custom output parsers
+
+## Features
+- 🔄 Async/await support for high-throughput applications
+- 📊 Built-in telemetry for LLM call monitoring
+- 🔐 Environment-based secret management
 
 
-## first_llm_llama.py
-- **Purpose**: Base LLM integration template
-- **Features**:
-  - Model configuration management
-  - Basic text generation pipeline
-  - Streaming output support
+## Usage Examples
+- cd 0-first_steps/
+- uv run python3 first_llm_llama.py
+- uv run python3 first_csv_html_pdf_llama.py
+- ollama serve &
+- uv run python3 ollama_langchain.py

@@ -18,8 +18,8 @@ Scripts for automated Python 2 to 3 migration:
   - CTransformers
   - Llama-2 7B GGML model
 - **Usage**:
-```bash
-python python_223_llm_llama.py
+```
+uv run python3 python_223_llm_llama.py
 ```
 - **Output**: Creates *_converted.py files alongside originals
 - **Note**: Always verify conversions - LLM may introduce subtle errors

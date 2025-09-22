@@ -1,11 +1,17 @@
 from langchain_community.llms import CTransformers
 from langchain_core.prompts import PromptTemplate
 import os
+from dotenv import load_dotenv
+
+load_dotenv("../.env")
+
+DATA_LOCATION = f"{os.getenv('DATA_LOCATION')}"
+BINARY_MODEL_LOCATION = f"{os.getenv('BINARY_MODEL_LOCATION')}"
 
 # Initialize the LLM with CTransformers
 llm = CTransformers(
     model="TheBloke/Llama-2-7B-Chat-GGML", 
-    model_file='./llama-2-7b-chat.ggmlv3.q2_K.bin', 
+    model_file=f'{BINARY_MODEL_LOCATION}llama-2-7b-chat.ggmlv3.q2_K.bin', 
     callbacks=[]
 )
 
@@ -38,11 +44,11 @@ def chunk_code(code, max_tokens=512):
     for line in tokens:
         current_chunk.append(line)
         if count_tokens('\n'.join(current_chunk)) > max_tokens:
-            chunks.append('\n'.join(current_chunk[:-1]))  # Add previous chunk
-            current_chunk = [current_chunk[-1]]  # Start new chunk with last line
+            chunks.append('\n'.join(current_chunk[:-1]))
+            current_chunk = [current_chunk[-1]]
 
     if current_chunk:
-        chunks.append('\n'.join(current_chunk))  # Add remaining lines
+        chunks.append('\n'.join(current_chunk))
 
     return chunks
 
@@ -61,10 +67,8 @@ def convert_file(file_path):
     python3_code_parts = []
     for chunk in code_chunks:
         python3_code = sequence.invoke({"code": chunk})
-        python3_code_parts.append(python3_code.strip())  # Strip any extra whitespace
+        python3_code_parts.append(python3_code.strip())
     
-    # Combine the converted code parts
-    breakpoint()
     python3_code_combined = "\n".join(python3_code_parts)
 
     # Write the converted code to a new Python 3 file
@@ -77,10 +81,10 @@ def convert_file(file_path):
 def convert_directory(root_dir):
     for dirpath, _, filenames in os.walk(root_dir):
         for filename in filenames:
-            if filename.endswith('.py'):
+            if filename.endswith('test.py'):
                 file_path = os.path.join(dirpath, filename)
                 convert_file(file_path)
 
 # Specify the root directory containing Python 2 files
-root_directory = '/home/nicolas.pantazis/work/my_first_llm/python2_code'
+root_directory = '/home/nicolas.pantazis/work/my_first_llm/2-python2_converter'
 convert_directory(root_directory)
