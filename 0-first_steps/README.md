@@ -11,15 +11,9 @@ Core LLM implementation scripts:
 - **Key Dependencies**:
   - LangChain (CSVLoader, BSHTMLLoader, PyPDFLoader)
   - CTransformers
+
 - **Usage**:
-```python
-from src.first_csv_pdf_llama import llm
-# Load data
-loader = CSVLoader("./data.csv")
-data = loader.load()
-# Process with LLM
-results = llm.generate(data)
-```
+
 
 ## first_llm_llama.py
 - **Purpose**: Base LLM integration template

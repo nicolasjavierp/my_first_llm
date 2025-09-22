@@ -7,7 +7,7 @@ Answer: Let's think step by step."""
 
 prompt = ChatPromptTemplate.from_template(template)
 
-model = OllamaLLM(model="gemma2:2b")
+model = OllamaLLM(model="llama3.1:8b")
 
 chain = prompt | model
 
